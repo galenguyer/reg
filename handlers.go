@@ -11,6 +11,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"sync"
 	"time"
@@ -227,6 +228,23 @@ func (rc *registryController) generateTagsTemplate(ctx context.Context, repo str
 
 		result.Repositories = append(result.Repositories, rp)
 	}
+
+	sort.Slice(result.Repositories, func(i, j int) bool {
+		// round times to the neareset second like how they're displayed
+		createdI := result.Repositories[i].Created
+		createdJ := result.Repositories[j].Created
+		roundI := time.Date(createdI.Year(), createdI.Month(), createdI.Day(), createdI.Hour(), createdI.Minute(), createdI.Second(), 0, createdI.Location())
+		roundJ := time.Date(createdJ.Year(), createdJ.Month(), createdJ.Day(), createdJ.Hour(), createdJ.Minute(), createdJ.Second(), 0, createdJ.Location())
+		// if the tags were created at the same time, sort by tag alphabetically, else sort by created time
+		switch roundI.Equal(roundJ) {
+		case true:
+			return strings.Compare(result.Repositories[i].Tag, result.Repositories[j].Tag) < 0
+		case false:
+			return roundI.After(roundJ)
+		}
+		// be as precise as possible if we somehow?? fall through
+		return createdI.After(createdJ)
+	})
 
 	// Execute the template.
 	var buf bytes.Buffer
