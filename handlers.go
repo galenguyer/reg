@@ -233,8 +233,8 @@ func (rc *registryController) generateTagsTemplate(ctx context.Context, repo str
 		// round times to the neareset second like how they're displayed
 		createdI := result.Repositories[i].Created
 		createdJ := result.Repositories[j].Created
-		roundI := time.Date(createdI.Year(), createdI.Month(), createdI.Day(), createdI.Hour(), createdI.Minute(), createdI.Second(), 0, createdI.Location())
-		roundJ := time.Date(createdJ.Year(), createdJ.Month(), createdJ.Day(), createdJ.Hour(), createdJ.Minute(), createdJ.Second(), 0, createdJ.Location())
+		roundI := time.Date(createdI.Year(), createdI.Month(), createdI.Day(), createdI.Hour(), createdI.Minute(), 0, 0, createdI.Location())
+		roundJ := time.Date(createdJ.Year(), createdJ.Month(), createdJ.Day(), createdJ.Hour(), createdJ.Minute(), 0, 0, createdJ.Location())
 		// if the tags were created at the same time, sort by tag alphabetically, else sort by created time
 		switch roundI.Equal(roundJ) {
 		case true:

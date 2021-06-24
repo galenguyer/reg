@@ -32,6 +32,7 @@ require (
 	github.com/opencontainers/runc v0.1.1 // indirect
 	github.com/peterhellberg/link v1.0.0
 	github.com/shurcooL/httpfs v0.0.0-20190707220628-8d4bc4ba7749
+	github.com/shurcooL/vfsgen v0.0.0-20200824052919-0d455de96546 // indirect
 	github.com/sirupsen/logrus v1.4.2
 	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4 // indirect
 	google.golang.org/grpc v1.23.1
